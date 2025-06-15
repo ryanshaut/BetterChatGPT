@@ -28,12 +28,16 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set Docker image tag
+
+      - name: Set Docker image tag and repo (lowercase)
         id: vars
         run: |
+          repo_lower=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
           if [[ "${{ github.event_name }}" == 'pull_request' ]]; then
+            echo "repo=$repo_lower" >> $GITHUB_OUTPUT
             echo "tag=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           else
+            echo "repo=$repo_lower" >> $GITHUB_OUTPUT
             echo "tag=latest" >> $GITHUB_OUTPUT
           fi
 
@@ -42,4 +46,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:${{ steps.vars.outputs.tag }}
+          tags: ghcr.io/${{ steps.vars.outputs.repo }}:${{ steps.vars.outputs.tag }}
