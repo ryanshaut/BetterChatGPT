@@ -31,7 +31,8 @@ export const getChatCompletion = async (
     const apiVersion =
       model === 'gpt-4' || model === 'gpt-4-32k'
         ? '2023-07-01-preview'
-        : '2023-03-15-preview';
+        : '2023-12-01-preview'; //azure openai
+        // : '2023-03-15-preview';
 
     const path = `openai/deployments/${model}/chat/completions?api-version=${apiVersion}`;
 
@@ -85,7 +86,9 @@ export const getChatCompletionStream = async (
     const apiVersion =
       model === 'gpt-4' || model === 'gpt-4-32k'
         ? '2023-07-01-preview'
-        : '2023-03-15-preview';
+        // : '2023-03-15-preview';
+        : '2023-12-01-preview'; //azure openai
+
     const path = `openai/deployments/${model}/chat/completions?api-version=${apiVersion}`;
 
     if (!endpoint.endsWith(path)) {
